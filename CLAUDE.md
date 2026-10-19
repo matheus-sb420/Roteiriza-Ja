@@ -24,7 +24,7 @@ de commits é evidência do processo para a banca, então:
 4. Algoritmo de sugestão de rotas, com testes (Jest) ✅
 5. Tela de despacho com o mapa ✅
 6. App do entregador ✅
-7. Simulador
+7. Simulador ✅
 
 Ao terminar uma etapa, marcar o checklist no `README.md`.
 
@@ -52,7 +52,10 @@ despacho/         React + Vite + react-leaflet (tela do caixa)
   src/componentes/  Mapa, ListaPedidos, PainelRotas, CadastroPedido, Legenda
   src/api.js        fetch com token; src/usePolling.js consulta a cada 5 s
 app-entregador/   React + Vite, PWA para celular
-simulador/        Node; fonte de pedidos de demonstração
+simulador/        Node sem dependências; fonte de pedidos de demonstração
+  src/gerador.js    monta pedidos no formato do contrato
+  src/simulador.js  motor: porta de entrada (envia) e porta de saída (recebe)
+  src/index.js      servidor HTTP + página de controle (src/pagina.js)
 docs/             Requisitos
 ```
 
@@ -148,6 +151,7 @@ cd api && npm run db:migrate             # aplica migrations (db:seed, db:reset 
 cd despacho && npm run dev               # http://localhost:5173
 cd app-entregador && npm run dev         # http://localhost:5174
 cd simulador && npm start                # http://localhost:4000
+cd simulador && npm test                 # node:test, sem dependências
 ```
 
 Antes de cada commit: rodar `npm test` na `api` (quando houver testes) e

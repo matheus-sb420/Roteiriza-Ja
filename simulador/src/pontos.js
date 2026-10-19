@@ -1,0 +1,33 @@
+// Pontos reais de Campinas usados para sortear o local das entregas, para não
+// cair pino em lago ou área sem casas (Apêndice A.1). As coordenadas são
+// aproximadas (centro de cada bairro); o gerador ainda espalha uns 150 m.
+module.exports = [
+  { bairro: 'Centro', rua: 'Rua Barão de Jaguara', latitude: -22.9056, longitude: -47.0608 },
+  { bairro: 'Cambuí', rua: 'Rua Coronel Quirino', latitude: -22.8955, longitude: -47.0505 },
+  { bairro: 'Taquaral', rua: 'Rua Dr. Oliveira Cruz', latitude: -22.8735, longitude: -47.0565 },
+  { bairro: 'Nova Campinas', rua: 'Rua Dr. Theodureto de Camargo', latitude: -22.8975, longitude: -47.0400 },
+  { bairro: 'Guanabara', rua: 'Rua Dr. Quirino', latitude: -22.8925, longitude: -47.0705 },
+  { bairro: 'Botafogo', rua: 'Rua Lidgerwood', latitude: -22.8985, longitude: -47.0715 },
+  { bairro: 'Bosque', rua: 'Rua Coronel Silva Teles', latitude: -22.9115, longitude: -47.0630 },
+  { bairro: 'Vila Itapura', rua: 'Rua Uruguai', latitude: -22.8915, longitude: -47.0625 },
+  { bairro: 'Jardim Chapadão', rua: 'Rua Pedro Domingues', latitude: -22.8870, longitude: -47.0785 },
+  { bairro: 'Castelo', rua: 'Rua Dona Libânia', latitude: -22.8830, longitude: -47.0830 },
+  { bairro: 'Proença', rua: 'Rua Sampainho', latitude: -22.9170, longitude: -47.0495 },
+  { bairro: 'Vila Industrial', rua: 'Rua Dr. Mascarenhas', latitude: -22.9135, longitude: -47.0745 },
+  { bairro: 'São Bernardo', rua: 'Rua Ana Bárbara', latitude: -22.9250, longitude: -47.0645 },
+  { bairro: 'Ponte Preta', rua: 'Rua Abolição', latitude: -22.9215, longitude: -47.0560 },
+  { bairro: 'Jardim Guarani', rua: 'Rua Hermantino Coelho', latitude: -22.8790, longitude: -47.0890 },
+  { bairro: 'Swift', rua: 'Rua Barão de Itapura', latitude: -22.9230, longitude: -47.0475 },
+  { bairro: 'Jardim do Lago', rua: 'Rua Benedito Otávio', latitude: -22.9310, longitude: -47.0780 },
+  { bairro: 'Parque Prado', rua: 'Rua Maria Monteiro', latitude: -22.9355, longitude: -47.0440 },
+  { bairro: 'Jardim Flamboyant', rua: 'Rua José Paulino', latitude: -22.8650, longitude: -47.0455 },
+  { bairro: 'Chácara da Barra', rua: 'Rua Barata Ribeiro', latitude: -22.9090, longitude: -47.0545 },
+  { bairro: 'Jardim Paraíso', rua: 'Rua Pompeia', latitude: -22.8995, longitude: -47.0310 },
+  { bairro: 'Jardim Proença', rua: 'Rua Alberto Faria', latitude: -22.9125, longitude: -47.0400 },
+  { bairro: 'Vila Nova', rua: 'Rua Doutor Sales de Oliveira', latitude: -22.8890, longitude: -47.0570 },
+  { bairro: 'Jardim Nossa Senhora Auxiliadora', rua: 'Rua Hércules Florence', latitude: -22.8805, longitude: -47.0660 },
+  { bairro: 'Parque Itália', rua: 'Rua Roberto Simonsen', latitude: -22.9285, longitude: -47.0350 },
+  { bairro: 'Jardim Santa Genebra', rua: 'Rua Pedro Vieira da Silva', latitude: -22.8450, longitude: -47.0700 },
+  { bairro: 'Sousas', rua: 'Rua Antônio Carlos Couto de Barros', latitude: -22.8800, longitude: -46.9700 },
+  { bairro: 'Barão Geraldo', rua: 'Avenida Albino J. B. de Oliveira', latitude: -22.8190, longitude: -47.0800 },
+];

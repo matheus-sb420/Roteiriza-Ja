@@ -128,16 +128,40 @@ npm install
 npm start
 ```
 
-Testes da API e do algoritmo:
+Testes:
 
 ```bash
 cd api
-npm test            # testes que não precisam de banco
-npm run test:banco  # recria o banco de teste e testa models e restrições
+npm test            # núcleo, algoritmo, contrato e porta de saída (sem banco)
+npm run test:banco  # recria o banco de teste e testa a API inteira
+
+cd simulador
+npm test            # gerador e motor do simulador
 ```
 
 Outros comandos do banco: `npm run db:migrate:undo` (desfaz a última
 migration) e `npm run db:reset` (apaga tudo, recria e roda os seeds).
+
+## Roteiro de demonstração
+
+1. Suba a API, o despacho, o app do entregador e o simulador (seção acima).
+2. Entre no despacho (`admin` / `admin123` por padrão) e cadastre um
+   entregador em **Entregadores**. Anote o PIN.
+3. Em **Configurações**, deixe o **modo demonstração** ligado.
+4. Abra o simulador em http://localhost:4000 e clique em **Iniciar** (pedidos
+   chegam no ritmo configurado) ou em **Gerar lote** (vários de uma vez).
+5. No despacho, marque pedidos como **Pronto** (ou ligue "marcar pronto
+   sozinho" no simulador), informe N e clique em **Sugerir rotas**.
+6. **Aceitar** → escolher entregador → **Despachar**.
+7. No celular (ou numa janela estreita), abra http://localhost:5174, entre
+   com o telefone e o PIN e confirme as entregas digitando o **código do
+   cliente** que aparece na tela do simulador.
+8. Para testar a regra das 3 tentativas, digite códigos errados ou marque
+   **Plataforma fora do ar** no simulador.
+
+Para acessar o app pelo celular na mesma rede Wi-Fi, rode o Vite com
+`npm run dev -- --host` e use o IP do computador nos dois `.env`
+(`VITE_API_URL` do app e do despacho).
 
 ## Modelo de dados
 
@@ -164,7 +188,7 @@ Cada etapa vai num commit separado, com a explicação do que foi feito e por qu
 - [x] **4. Algoritmo de sugestão de rotas**, com testes
 - [x] **5. Tela de despacho** com o mapa
 - [x] **6. App do entregador**
-- [ ] **7. Simulador**
+- [x] **7. Simulador**
 
 ## Fora do escopo (trabalhos futuros)
 
