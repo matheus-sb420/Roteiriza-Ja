@@ -1,0 +1,9 @@
+{
+  "name": "Roteiriza Já – Entregador",
+  "short_name": "Entregador",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#c0392b",
+  "lang": "pt-BR"
+}

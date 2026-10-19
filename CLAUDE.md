@@ -18,7 +18,7 @@ de commits é evidência do processo para a banca, então:
 
 ## Etapas
 
-1. Estrutura do projeto
+1. Estrutura do projeto ✅
 2. Banco: models e migrations do Sequelize
 3. API: porta de entrada, cálculo de setor e folga
 4. Algoritmo de sugestão de rotas, com testes (Jest)

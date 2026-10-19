@@ -132,7 +132,7 @@ npm test
 Cada etapa vai num commit separado, com a explicação do que foi feito e por quê
 — o histórico serve de evidência do processo para a banca.
 
-- [ ] **1. Estrutura do projeto** — pastas `api`, `despacho`, `app-entregador` e `simulador`
+- [x] **1. Estrutura do projeto** — pastas `api`, `despacho`, `app-entregador` e `simulador`
 - [ ] **2. Banco** — models e migrations do Sequelize a partir do modelo de dados
 - [ ] **3. API** — porta de entrada, cálculo de setor e folga
 - [ ] **4. Algoritmo de sugestão de rotas**, com testes
