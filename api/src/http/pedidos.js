@@ -25,4 +25,9 @@ router.post('/:id/cancelar', async (req, res) => {
   res.status(204).end();
 });
 
+router.post('/:id/resolver', async (req, res) => {
+  await pedidos.resolverPendente(Number(req.params.id), req.body);
+  res.status(204).end();
+});
+
 module.exports = router;

@@ -22,7 +22,7 @@ de commits é evidência do processo para a banca, então:
 2. Banco: models e migrations do Sequelize ✅
 3. API: porta de entrada, cálculo de setor e folga ✅
 4. Algoritmo de sugestão de rotas, com testes (Jest) ✅
-5. Tela de despacho com o mapa
+5. Tela de despacho com o mapa ✅
 6. App do entregador
 7. Simulador
 
@@ -47,7 +47,10 @@ api/              Node + Express + Sequelize (CommonJS)
   migrations/     Migrations Sequelize (uma por tabela, com CHECK nos status)
   seeders/        Configuração inicial e administrador
   tests/          Jest
-despacho/         React + Vite + Leaflet (tela do caixa)
+despacho/         React + Vite + react-leaflet (tela do caixa)
+  src/paginas/      Login, Despacho, Entregadores, Indicadores, Configurações
+  src/componentes/  Mapa, ListaPedidos, PainelRotas, CadastroPedido, Legenda
+  src/api.js        fetch com token; src/usePolling.js consulta a cada 5 s
 app-entregador/   React + Vite, PWA para celular
 simulador/        Node; fonte de pedidos de demonstração
 docs/             Requisitos

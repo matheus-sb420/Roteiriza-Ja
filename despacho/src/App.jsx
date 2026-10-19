@@ -1,23 +1,50 @@
 import { useEffect, useState } from 'react';
+import { apagarToken, quandoSessaoExpirar, tokenSalvo } from './api';
+import Login from './paginas/Login';
+import Despacho from './paginas/Despacho';
+import Entregadores from './paginas/Entregadores';
+import Configuracoes from './paginas/Configuracoes';
+import Indicadores from './paginas/Indicadores';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const PAGINAS = [
+  { id: 'despacho', nome: 'Despacho', Componente: Despacho },
+  { id: 'entregadores', nome: 'Entregadores', Componente: Entregadores },
+  { id: 'indicadores', nome: 'Indicadores', Componente: Indicadores },
+  { id: 'configuracoes', nome: 'Configurações', Componente: Configuracoes },
+];
 
-// Tela provisória: só confirma que o despacho fala com a API.
-// O mapa, a lista de pedidos e as rotas entram na Etapa 5.
 export default function App() {
-  const [statusApi, setStatusApi] = useState('verificando…');
+  const [logado, setLogado] = useState(Boolean(tokenSalvo()));
+  const [pagina, setPagina] = useState('despacho');
 
-  useEffect(() => {
-    fetch(`${API_URL}/health`)
-      .then((r) => r.json())
-      .then((dados) => setStatusApi(dados.status))
-      .catch(() => setStatusApi('fora do ar'));
-  }, []);
+  const sair = () => {
+    apagarToken();
+    setLogado(false);
+  };
 
+  useEffect(() => quandoSessaoExpirar(sair), []);
+
+  if (!logado) return <Login aoEntrar={() => setLogado(true)} />;
+
+  const { Componente } = PAGINAS.find((p) => p.id === pagina);
   return (
-    <main>
-      <h1>Roteiriza Já – Despacho</h1>
-      <p>API: {statusApi}</p>
-    </main>
+    <div className="app">
+      <nav className="navegacao">
+        <strong className="marca">Roteiriza Já</strong>
+        {PAGINAS.map((p) => (
+          <button
+            key={p.id}
+            className={p.id === pagina ? 'aba ativa' : 'aba'}
+            onClick={() => setPagina(p.id)}
+          >
+            {p.nome}
+          </button>
+        ))}
+        <button className="aba sair" onClick={sair}>
+          Sair
+        </button>
+      </nav>
+      <Componente />
+    </div>
   );
 }

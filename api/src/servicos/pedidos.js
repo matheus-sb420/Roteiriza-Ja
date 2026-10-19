@@ -140,7 +140,25 @@ async function cancelarPedido(id) {
   });
 }
 
+// RN25: a atendente resolve o pendente pela própria plataforma e marca como
+// entregue ou registra o motivo do problema (que tira o pedido da lista).
+async function resolverPendente(id, { entregue, motivo }, agora = new Date()) {
+  const pedido = await buscarPedido(id);
+  if (pedido.status !== STATUS_PEDIDO.PENDENTE_CONFIRMACAO) {
+    throw new ErroNegocio(409, 'Pedido não está pendente de confirmação');
+  }
+  if (entregue === true) {
+    await pedido.update({ status: STATUS_PEDIDO.ENTREGUE, horarioEntrega: agora, motivoProblema: null });
+  } else if (typeof motivo === 'string' && motivo.trim()) {
+    await pedido.update({ motivoProblema: motivo.trim() });
+  } else {
+    throw new ErroNegocio(422, 'Informe entregue: true ou o motivo do problema');
+  }
+  return pedido;
+}
+
 module.exports = {
+  resolverPendente,
   STATUS_ATIVOS,
   buscarPedido,
   registrarPedido,

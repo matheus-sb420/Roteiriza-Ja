@@ -47,6 +47,9 @@ Exemplo de novo pedido:
 | POST | `/api/pedidos` | Cadastro manual (mesmo contrato; a origem vira `MANUAL`) |
 | POST | `/api/pedidos/:id/pronto` | `{ pronto: true \| false }` marca ou desmarca como pronto |
 | POST | `/api/pedidos/:id/cancelar` | Cancela o pedido |
+| POST | `/api/pedidos/:id/resolver` | Pendente de confirmação: `{ entregue: true }` ou `{ motivo: "..." }` (RN25) |
+| GET | `/api/painel` | Tudo para a tela de despacho: configuração, pedidos, rotas, entregadores e indicadores rápidos |
+| GET | `/api/painel/indicadores` | Indicadores da noite (últimas 12 h, RF19) |
 | GET | `/api/configuracao` | Configuração atual |
 | PUT | `/api/configuracao` | Altera configuração (só os campos enviados) |
 | GET | `/api/entregadores` | Lista entregadores |
