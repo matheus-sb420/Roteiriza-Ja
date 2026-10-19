@@ -161,7 +161,7 @@ Cada etapa vai num commit separado, com a explicação do que foi feito e por qu
 - [x] **1. Estrutura do projeto** — pastas `api`, `despacho`, `app-entregador` e `simulador`
 - [x] **2. Banco** — models e migrations do Sequelize a partir do modelo de dados
 - [x] **3. API** — porta de entrada, cálculo de setor e folga
-- [ ] **4. Algoritmo de sugestão de rotas**, com testes
+- [x] **4. Algoritmo de sugestão de rotas**, com testes
 - [ ] **5. Tela de despacho** com o mapa
 - [ ] **6. App do entregador**
 - [ ] **7. Simulador**

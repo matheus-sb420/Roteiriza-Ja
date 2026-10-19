@@ -53,3 +53,21 @@ Exemplo de novo pedido:
 | POST | `/api/entregadores` | `{ nome, telefone }` → `{ entregador, pin }` (o PIN só aparece aqui) |
 | POST | `/api/entregadores/:id/pin` | Gera um PIN novo → `{ pin }` |
 | PATCH | `/api/entregadores/:id` | `{ situacao: "disponivel" \| "fora_de_servico" }` |
+| GET | `/api/rotas` | Rotas em montagem e despachadas, com paradas, pedidos e entregador |
+| POST | `/api/rotas/sugestoes` | `{ limite: N }` → sugestões `[{ ancoraId, pedidoIds, pedidos }]` (não são gravadas) |
+| POST | `/api/rotas` | `{ pedidoIds, origem: "sugerida" \| "manual" }` cria rota em montagem (paradas por distância) |
+| PUT | `/api/rotas/:id/paradas` | `{ pedidoIds }` na nova ordem (adicionar, remover, reordenar) |
+| DELETE | `/api/rotas/:id` | Desfaz rota em montagem (pedidos ficam livres) |
+| POST | `/api/rotas/:id/despachar` | `{ entregadorId, confirmado? }`. Com pedidos em preparo responde `409` com `detalhes.precisaConfirmar`; reenviar com `confirmado: true` |
+| POST | `/api/rotas/:id/concluir` | Conclusão manual; paradas sem resposta viram pendentes |
+
+## Porta de saída (mensagens que a API envia às fontes)
+
+A URL de cada fonte vem do `.env`: `FONTE_URL_<ORIGEM>` (ex.:
+`FONTE_URL_SIMULADOR=http://localhost:4000`). Origem sem URL não recebe nada.
+
+| Método | Caminho na fonte | Corpo | Resposta esperada |
+|---|---|---|---|
+| POST | `/saida/em-rota` | `{ pedidoId, localizador, codigoExibicao }` | 2xx |
+| POST | `/saida/entregue` | `{ pedidoId, localizador, codigoExibicao }` | 2xx |
+| POST | `/saida/validar-codigo` | `{ pedidoId, localizador, codigoExibicao, codigo }` | `{ valido: true \| false }` em até 10 s |

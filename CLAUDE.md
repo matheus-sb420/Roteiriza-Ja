@@ -21,7 +21,7 @@ de commits é evidência do processo para a banca, então:
 1. Estrutura do projeto ✅
 2. Banco: models e migrations do Sequelize ✅
 3. API: porta de entrada, cálculo de setor e folga ✅
-4. Algoritmo de sugestão de rotas, com testes (Jest)
+4. Algoritmo de sugestão de rotas, com testes (Jest) ✅
 5. Tela de despacho com o mapa
 6. App do entregador
 7. Simulador
@@ -92,8 +92,14 @@ Cada pasta é um projeto npm independente (sem workspaces), para que o
   pendentes ou canceladas; entregador volta a `disponível`.
 - Senhas e PINs sempre com hash (bcrypt).
 
-O exemplo da seção 6 de `docs/requisitos.md` (pedidos A–E, N = 3) deve virar
-um teste e gerar exatamente as duas rotas descritas.
+O algoritmo está em `api/src/nucleo/sugestao.js` e seus testes em
+`api/tests/nucleo/sugestao.test.js`, incluindo o exemplo da seção 6.5 (pedidos
+A–E, N = 3) e os cenários da seção 12.3. Qualquer mudança no algoritmo precisa
+manter esses testes passando.
+
+Despacho com pedidos em preparo (RN06) é um "pergunta e confirma": a API
+responde 409 com `detalhes.precisaConfirmar` e a tela reenvia com
+`confirmado: true`.
 
 ## Banco
 

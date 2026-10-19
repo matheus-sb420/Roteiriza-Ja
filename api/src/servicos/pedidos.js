@@ -1,5 +1,5 @@
 // Casos de uso do pedido: registrar, listar com urgência, marcar pronto e cancelar.
-const { Sequelize, Pedido, Parada, Rota } = require('../models');
+const { sequelize, Sequelize, Pedido, Parada, Rota } = require('../models');
 const { STATUS_PEDIDO, STATUS_ROTA } = require('../nucleo/constantes');
 const { calcularSetor } = require('../nucleo/setor');
 const { avaliarPedido } = require('../nucleo/folga');
@@ -118,14 +118,26 @@ async function marcarPronto(id, pronto, agora = new Date()) {
   return pedido;
 }
 
-// RN18: o pedido cancelado sai do mapa. (A retirada de rotas entra junto com as rotas.)
+// RN18: o cancelado sai do mapa e de rotas em montagem. Se a rota já saiu, a
+// parada continua nela marcada como cancelada, para o app e para a atendente.
 async function cancelarPedido(id) {
-  const pedido = await buscarPedido(id);
-  if ([STATUS_PEDIDO.ENTREGUE, STATUS_PEDIDO.CANCELADO].includes(pedido.status)) {
-    throw new ErroNegocio(409, `Pedido já está "${pedido.status}"`);
-  }
-  await pedido.update({ status: STATUS_PEDIDO.CANCELADO });
-  return pedido;
+  const rotas = require('./rotas'); // carregado aqui para evitar dependência circular
+  return sequelize.transaction(async (t) => {
+    const pedido = await buscarPedido(id, { transaction: t });
+    if ([STATUS_PEDIDO.ENTREGUE, STATUS_PEDIDO.CANCELADO].includes(pedido.status)) {
+      throw new ErroNegocio(409, `Pedido já está "${pedido.status}"`);
+    }
+    const parada = await paradaAberta(pedido.id, t);
+    await pedido.update({ status: STATUS_PEDIDO.CANCELADO }, { transaction: t });
+
+    if (parada && parada.rota.status === STATUS_ROTA.EM_MONTAGEM) {
+      await rotas.removerParada(parada, t);
+    } else if (parada && parada.rota.status === STATUS_ROTA.DESPACHADA) {
+      // Se era a última parada pendente, a rota termina aqui (RN26).
+      await rotas.concluirSeTerminou(parada.rotaId, t);
+    }
+    return pedido;
+  });
 }
 
 module.exports = {

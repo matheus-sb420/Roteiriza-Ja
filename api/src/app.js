@@ -20,6 +20,7 @@ function criarApp() {
   app.use('/api/pedidos', exigirAdmin, require('./http/pedidos'));
   app.use('/api/configuracao', exigirAdmin, require('./http/configuracao'));
   app.use('/api/entregadores', exigirAdmin, require('./http/entregadores'));
+  app.use('/api/rotas', exigirAdmin, require('./http/rotas'));
 
   app.use(tratarErros);
   return app;
