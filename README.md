@@ -95,11 +95,20 @@ Pré-requisitos: Node.js 20+ e PostgreSQL 14+.
 
 Cada pasta é um projeto Node independente. Em terminais separados:
 
+Antes da primeira vez, crie os bancos no PostgreSQL:
+
+```sql
+CREATE DATABASE roteiriza_ja;
+CREATE DATABASE roteiriza_ja_test;   -- usado só pelos testes de banco
+```
+
 ```bash
 # API (porta 3000)
 cd api
-cp .env.example .env     # ajuste a conexão com o banco
+cp .env.example .env     # ajuste a conexão com o banco e a senha do admin
 npm install
+npm run db:migrate       # cria as tabelas
+npm run db:seed          # configuração inicial e usuário administrador
 npm run dev
 
 # Sistema de despacho (porta 5173)
@@ -122,10 +131,26 @@ Testes da API e do algoritmo:
 
 ```bash
 cd api
-npm test
+npm test            # testes que não precisam de banco
+npm run test:banco  # recria o banco de teste e testa models e restrições
 ```
 
-> As instruções de banco (migrations e seeds) entram na Etapa 2.
+Outros comandos do banco: `npm run db:migrate:undo` (desfaz a última
+migration) e `npm run db:reset` (apaga tudo, recria e roda os seeds).
+
+## Modelo de dados
+
+| Tabela | O que guarda |
+|---|---|
+| `configuracoes` | Uma linha: endereço e coordenadas da pizzaria, raio máximo, tempo por anel, limite de crítico, prazo LGPD, modo demonstração |
+| `administradores` | Login do sistema de despacho (senha com hash) |
+| `entregadores` | Nome, telefone (login do app), hash do PIN e situação |
+| `pedidos` | Dados do contrato do pedido, setor (anel e fatia), status e horários de pronto/entrega |
+| `rotas` | Origem (sugerida/manual), status, entregador e horários de saída/conclusão |
+| `paradas` | Liga rota e pedido, com a ordem de entrega e as tentativas de código |
+
+A folga não é gravada: depende do horário atual e é calculada na hora. O
+código que o cliente informa na entrega não tem coluna, porque nunca é guardado.
 
 ## Etapas de desenvolvimento
 
@@ -133,7 +158,7 @@ Cada etapa vai num commit separado, com a explicação do que foi feito e por qu
 — o histórico serve de evidência do processo para a banca.
 
 - [x] **1. Estrutura do projeto** — pastas `api`, `despacho`, `app-entregador` e `simulador`
-- [ ] **2. Banco** — models e migrations do Sequelize a partir do modelo de dados
+- [x] **2. Banco** — models e migrations do Sequelize a partir do modelo de dados
 - [ ] **3. API** — porta de entrada, cálculo de setor e folga
 - [ ] **4. Algoritmo de sugestão de rotas**, com testes
 - [ ] **5. Tela de despacho** com o mapa

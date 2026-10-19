@@ -19,7 +19,7 @@ de commits é evidência do processo para a banca, então:
 ## Etapas
 
 1. Estrutura do projeto ✅
-2. Banco: models e migrations do Sequelize
+2. Banco: models e migrations do Sequelize ✅
 3. API: porta de entrada, cálculo de setor e folga
 4. Algoritmo de sugestão de rotas, com testes (Jest)
 5. Tela de despacho com o mapa
@@ -41,7 +41,8 @@ api/              Node + Express + Sequelize (CommonJS)
     http/         Rotas Express (controllers finos)
     models/       Models Sequelize
     config/       Variáveis de ambiente e conexão
-  migrations/     Migrations Sequelize
+  migrations/     Migrations Sequelize (uma por tabela, com CHECK nos status)
+  seeders/        Configuração inicial e administrador
   tests/          Jest
 despacho/         React + Vite + Leaflet (tela do caixa)
 app-entregador/   React + Vite, PWA para celular
@@ -91,6 +92,21 @@ Cada pasta é um projeto npm independente (sem workspaces), para que o
 O exemplo da seção 6 de `docs/requisitos.md` (pedidos A–E, N = 3) deve virar
 um teste e gerar exatamente as duas rotas descritas.
 
+## Banco
+
+- Tabelas: `configuracoes` (1 linha), `administradores`, `entregadores`,
+  `pedidos`, `rotas`, `paradas` (liga rota e pedido com `ordem` e
+  `tentativas_codigo`).
+- Status são `STRING` com `CHECK` no banco e `isIn` no model, usando as
+  constantes de `src/nucleo/constantes.js` (não usar ENUM do Postgres: é
+  difícil de alterar depois).
+- Nunca editar uma migration já commitada: criar uma nova.
+- Folga não é gravada (depende de "agora"). Anel e fatia são gravados no pedido.
+- Hash de senha/PIN fica fora do `defaultScope`; use `scope('comSenha')` /
+  `scope('comPin')` só no login.
+- RN15 (um pedido em no máximo uma rota não concluída) é garantida na camada
+  de serviço, não por constraint.
+
 ## Convenções
 
 - Idioma: português no domínio (nomes de entidades, campos, mensagens, commits),
@@ -108,7 +124,9 @@ um teste e gerar exatamente as duas rotas descritas.
 
 ```bash
 cd api && npm install && npm run dev     # API em http://localhost:3000
-cd api && npm test                       # Jest
+cd api && npm test                       # Jest (sem banco)
+cd api && npm run test:banco             # recria o banco de teste e roda *.banco.test.js
+cd api && npm run db:migrate             # aplica migrations (db:seed, db:reset também)
 cd despacho && npm run dev               # http://localhost:5173
 cd app-entregador && npm run dev         # http://localhost:5174
 cd simulador && npm start                # http://localhost:4000
