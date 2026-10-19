@@ -1,7 +1,8 @@
 // Login do administrador (RF01) e emissão de tokens.
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { Administrador } = require('../models');
+const { Administrador, Entregador } = require('../models');
+const { normalizarTelefone } = require('./entregadores');
 const { segredoJwt } = require('../config/env');
 const { ErroNegocio } = require('../erros');
 
@@ -24,4 +25,15 @@ async function loginAdministrador(usuario, senha) {
   return { token: emitirToken('admin', admin.id), usuario: admin.usuario };
 }
 
-module.exports = { emitirToken, verificarToken, loginAdministrador };
+// RF22 / RN21: login do entregador com telefone e PIN.
+async function loginEntregador(telefone, pin) {
+  const entregador = await Entregador.scope('comPin').findOne({
+    where: { telefone: normalizarTelefone(telefone) },
+  });
+  if (!entregador || !(await bcrypt.compare(String(pin || ''), entregador.pinHash))) {
+    throw new ErroNegocio(401, 'Telefone ou PIN inválidos');
+  }
+  return { token: emitirToken('entregador', entregador.id), nome: entregador.nome };
+}
+
+module.exports = { emitirToken, verificarToken, loginAdministrador, loginEntregador };

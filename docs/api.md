@@ -64,6 +64,14 @@ Exemplo de novo pedido:
 | POST | `/api/rotas/:id/despachar` | `{ entregadorId, confirmado? }`. Com pedidos em preparo responde `409` com `detalhes.precisaConfirmar`; reenviar com `confirmado: true` |
 | POST | `/api/rotas/:id/concluir` | Conclusão manual; paradas sem resposta viram pendentes |
 
+## App do entregador
+
+| Método | Caminho | O que faz |
+|---|---|---|
+| POST | `/app/login` | `{ telefone, pin }` → `{ token, nome }` |
+| GET | `/app/rota` | Rota despachada do entregador logado: `{ rota: { id, paradas: [...] }, paradaAtualId }` ou `{ rota: null }` |
+| POST | `/app/paradas/:pedidoId/confirmar` | `{ codigo }` (só se o pedido exige código) → `{ resultado: "entregue" \| "codigo_invalido" \| "pendente", tentativasRestantes?, rotaConcluida }` |
+
 ## Porta de saída (mensagens que a API envia às fontes)
 
 A URL de cada fonte vem do `.env`: `FONTE_URL_<ORIGEM>` (ex.:

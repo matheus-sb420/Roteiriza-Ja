@@ -23,7 +23,7 @@ de commits é evidência do processo para a banca, então:
 3. API: porta de entrada, cálculo de setor e folga ✅
 4. Algoritmo de sugestão de rotas, com testes (Jest) ✅
 5. Tela de despacho com o mapa ✅
-6. App do entregador
+6. App do entregador ✅
 7. Simulador
 
 Ao terminar uma etapa, marcar o checklist no `README.md`.

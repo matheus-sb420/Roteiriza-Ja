@@ -163,7 +163,7 @@ Cada etapa vai num commit separado, com a explicação do que foi feito e por qu
 - [x] **3. API** — porta de entrada, cálculo de setor e folga
 - [x] **4. Algoritmo de sugestão de rotas**, com testes
 - [x] **5. Tela de despacho** com o mapa
-- [ ] **6. App do entregador**
+- [x] **6. App do entregador**
 - [ ] **7. Simulador**
 
 ## Fora do escopo (trabalhos futuros)

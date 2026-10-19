@@ -1,23 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { apagarToken, tokenSalvo } from './api';
+import Login from './telas/Login';
+import MinhaRota from './telas/MinhaRota';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
-// Tela provisória: só confirma que o app fala com a API.
-// Login, "Minha rota" e confirmação de entrega entram na Etapa 6.
+// App do entregador (seção 11.2): login e a rota com a confirmação de cada entrega.
 export default function App() {
-  const [statusApi, setStatusApi] = useState('verificando…');
+  const [logado, setLogado] = useState(Boolean(tokenSalvo()));
 
-  useEffect(() => {
-    fetch(`${API_URL}/health`)
-      .then((r) => r.json())
-      .then((dados) => setStatusApi(dados.status))
-      .catch(() => setStatusApi('fora do ar'));
-  }, []);
+  const sair = () => {
+    apagarToken();
+    setLogado(false);
+  };
 
-  return (
-    <main>
-      <h1>Entregador</h1>
-      <p>API: {statusApi}</p>
-    </main>
-  );
+  return logado ? <MinhaRota aoSair={sair} /> : <Login aoEntrar={() => setLogado(true)} />;
 }

@@ -15,6 +15,9 @@ function criarApp() {
   // Porta de entrada para fontes externas (chave no cabeçalho).
   app.use('/entrada', require('./http/entrada'));
 
+  // App do entregador (login com telefone e PIN).
+  app.use('/app', require('./http/app-entregador'));
+
   // Sistema de despacho (login do administrador).
   app.use('/auth', require('./http/autenticacao'));
   app.use('/api/pedidos', exigirAdmin, require('./http/pedidos'));
