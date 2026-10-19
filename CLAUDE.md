@@ -20,7 +20,7 @@ de commits é evidência do processo para a banca, então:
 
 1. Estrutura do projeto ✅
 2. Banco: models e migrations do Sequelize ✅
-3. API: porta de entrada, cálculo de setor e folga
+3. API: porta de entrada, cálculo de setor e folga ✅
 4. Algoritmo de sugestão de rotas, com testes (Jest)
 5. Tela de despacho com o mapa
 6. App do entregador
@@ -33,12 +33,15 @@ Ao terminar uma etapa, marcar o checklist no `README.md`.
 ```
 api/              Node + Express + Sequelize (CommonJS)
   src/
-    nucleo/       Regras de domínio puras: setor, folga, sugestão, rotas.
+    nucleo/       Regras de domínio puras (geo, setor, folga, sugestão).
                   Não importa Express, Sequelize, nem nada de fontes.
+    servicos/     Casos de uso com banco (pedidos, rotas, entregadores…).
+                  Junto com nucleo/ forma o "núcleo" da arquitetura.
     portas/
       entrada/    Valida o contrato do pedido e chama o núcleo
       saida/      Envia status e "validar código" à fonte do pedido
-    http/         Rotas Express (controllers finos)
+    http/         Rotas Express (controllers finos) e middlewares
+    erros.js      ErroNegocio(status, mensagem, detalhes) → resposta JSON
     models/       Models Sequelize
     config/       Variáveis de ambiente e conexão
   migrations/     Migrations Sequelize (uma por tabela, com CHECK nos status)
@@ -106,6 +109,12 @@ um teste e gerar exatamente as duas rotas descritas.
   `scope('comPin')` só no login.
 - RN15 (um pedido em no máximo uma rota não concluída) é garantida na camada
   de serviço, não por constraint.
+
+## API
+
+Endpoints documentados em `docs/api.md` (atualizar ao criar ou mudar um).
+Admin usa JWT (`Authorization: Bearer`); fontes usam `x-chave-fonte`. O
+cadastro manual passa pela mesma `portas/entrada` com origem `MANUAL`.
 
 ## Convenções
 

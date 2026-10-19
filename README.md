@@ -11,6 +11,7 @@ simulador e de cadastro manual; a integração real com iFood, 99Food e outras
 plataformas fica para o futuro e não exige mudar o núcleo do sistema.
 
 - Requisitos completos: [`docs/requisitos.md`](docs/requisitos.md)
+- Endpoints da API: [`docs/api.md`](docs/api.md)
 - Orientações para quem (ou o Claude) for programar: [`CLAUDE.md`](CLAUDE.md)
 
 ## O problema
@@ -159,7 +160,7 @@ Cada etapa vai num commit separado, com a explicação do que foi feito e por qu
 
 - [x] **1. Estrutura do projeto** — pastas `api`, `despacho`, `app-entregador` e `simulador`
 - [x] **2. Banco** — models e migrations do Sequelize a partir do modelo de dados
-- [ ] **3. API** — porta de entrada, cálculo de setor e folga
+- [x] **3. API** — porta de entrada, cálculo de setor e folga
 - [ ] **4. Algoritmo de sugestão de rotas**, com testes
 - [ ] **5. Tela de despacho** com o mapa
 - [ ] **6. App do entregador**
