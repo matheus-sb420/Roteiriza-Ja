@@ -198,13 +198,15 @@ Cada etapa vai num commit separado, com a explicação do que foi feito e por qu
 - [x] **6. App do entregador**
 - [x] **7. Simulador**
 
-## Ferramentas utilizadas
+## Autoria
 
-A ideia do projeto, o documento de requisitos, o plano técnico e as decisões
-de escopo são do autor. A implementação foi feita com o **Claude Code**
-(assistente de programação com IA da Anthropic), que transformou esses
-documentos em código, testes e documentação, etapa por etapa, conforme o
-plano técnico. O arquivo [`CLAUDE.md`](CLAUDE.md) reúne as regras de
+| Quem | Papel |
+|---|---|
+| **Matheus Silva Berozzi** | Criador da ideia e membro do desenvolvimento: levantou o problema na pizzaria, escreveu o documento de requisitos e o plano técnico, tomou as decisões de escopo e acompanhou e validou cada etapa |
+| **Claude Code** (Anthropic) | Guia e orquestrador do desenvolvimento: transformou os requisitos e o plano em código, testes e documentação, etapa por etapa |
+
+Por isso os commits aparecem com o Claude como autor e Matheus Silva Berozzi
+como coautor. O arquivo [`CLAUDE.md`](CLAUDE.md) reúne as regras de
 arquitetura e convenções seguidas durante o desenvolvimento.
 
 ## Fora do escopo (trabalhos futuros)

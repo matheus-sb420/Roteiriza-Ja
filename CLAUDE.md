@@ -16,6 +16,18 @@ de commits é evidência do processo para a banca, então:
 - Código simples e explicável é melhor que código esperto. O aluno precisa
   conseguir defender cada parte.
 
+## Autoria dos commits
+
+O Claude é o autor dos commits (guia e orquestrador da implementação) e
+Matheus Silva Berozzi, criador da ideia, é o coautor. Toda mensagem de commit
+termina com:
+
+```
+Co-Authored-By: Matheus Silva Berozzi <matheusberozzi335@gmail.com>
+```
+
+Não incluir links de sessão nem nome de modelo nas mensagens.
+
 ## Etapas
 
 1. Estrutura do projeto ✅
