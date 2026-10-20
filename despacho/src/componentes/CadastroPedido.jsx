@@ -1,16 +1,20 @@
 import { useState } from 'react';
 
+// Horário "HH:MM" daqui a "minutos", no fuso do computador da atendente.
+// Leitura e escrita usam o mesmo fuso, para o horário não "pular" de hora.
+const doisDigitos = (n) => String(n).padStart(2, '0');
 const agoraMais = (minutos) => {
   const d = new Date(Date.now() + minutos * 60000);
-  return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' });
+  return `${doisDigitos(d.getHours())}:${doisDigitos(d.getMinutes())}`;
 };
 
-// "20:55" de hoje (ou de amanhã, se já passou muito) → data ISO.
+// "20:55" → data ISO. Se o horário já passou, entende que é do dia seguinte
+// (ex.: às 23:50, prometido para 00:30).
 function horarioParaData(hhmm) {
   const [h, m] = hhmm.split(':').map(Number);
   const data = new Date();
   data.setHours(h, m, 0, 0);
-  if (data < new Date(Date.now() - 12 * 60 * 60000)) data.setDate(data.getDate() + 1);
+  if (data < new Date()) data.setDate(data.getDate() + 1);
   return data.toISOString();
 }
 

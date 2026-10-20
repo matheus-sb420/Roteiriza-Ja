@@ -144,6 +144,7 @@ cadastro manual passa pela mesma `portas/entrada` com origem `MANUAL`.
 ## Comandos
 
 ```bash
+npm run instalar / preparar-banco / iniciar / testar   # na raiz: atalhos para as 4 partes
 cd api && npm install && npm run dev     # API em http://localhost:3000
 cd api && npm test                       # Jest (sem banco)
 cd api && npm run test:banco             # recria o banco de teste e roda *.banco.test.js

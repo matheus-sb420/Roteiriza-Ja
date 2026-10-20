@@ -1,5 +1,7 @@
 // Chamadas à API do Roteiriza Já com o token do administrador.
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+// Sem VITE_API_URL, usa o mesmo computador que serviu a página (porta 3000).
+// Assim o celular na mesma rede Wi-Fi acha a API sem configurar nada.
+const API_URL = import.meta.env.VITE_API_URL || `${window.location.protocol}//${window.location.hostname}:3000`;
 const CHAVE_TOKEN = 'roteiriza.token';
 
 export class ErroApi extends Error {

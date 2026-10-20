@@ -12,7 +12,7 @@ plataformas fica para o futuro e não exige mudar o núcleo do sistema.
 
 - Requisitos completos: [`docs/requisitos.md`](docs/requisitos.md)
 - Endpoints da API: [`docs/api.md`](docs/api.md)
-- Orientações para quem (ou o Claude) for programar: [`CLAUDE.md`](CLAUDE.md)
+- Guia de desenvolvimento (arquitetura e convenções): [`CLAUDE.md`](CLAUDE.md)
 
 ## O problema
 
@@ -92,40 +92,43 @@ ser apagado sem afetar o resto.
 
 ## Como rodar
 
-Pré-requisitos: Node.js 20+ e PostgreSQL 14+.
+Pré-requisitos: Node.js 20.12+ e PostgreSQL 14+.
 
-Cada pasta é um projeto Node independente. Em terminais separados:
+### Jeito rápido (um terminal só)
 
-Antes da primeira vez, crie os bancos no PostgreSQL:
+Na primeira vez, crie os bancos no PostgreSQL:
 
 ```sql
 CREATE DATABASE roteiriza_ja;
 CREATE DATABASE roteiriza_ja_test;   -- usado só pelos testes de banco
 ```
 
+Depois, na pasta raiz do projeto:
+
 ```bash
-# API (porta 3000)
-cd api
-cp .env.example .env     # ajuste a conexão com o banco e a senha do admin
-npm install
-npm run db:migrate       # cria as tabelas
-npm run db:seed          # configuração inicial e usuário administrador
-npm run dev
+npm run instalar         # instala as 4 partes e cria os .env
+# ajuste DB_USER / DB_PASSWORD em api/.env, se o seu PostgreSQL for diferente
+npm run preparar-banco   # cria as tabelas e os dados iniciais (apaga os anteriores)
+npm run iniciar          # sobe API, despacho, app e simulador juntos
+```
 
-# Sistema de despacho (porta 5173)
-cd despacho
-npm install
-npm run dev
+| Parte | Endereço | Acesso |
+|---|---|---|
+| Despacho | http://localhost:5173 | `admin` / `admin123` |
+| App do entregador | http://localhost:5174 | `19900000001` / PIN `1111` (também `…02`/`2222` e `…03`/`3333`) |
+| Simulador | http://localhost:4000 | — |
 
-# App do entregador (porta 5174)
-cd app-entregador
-npm install
-npm run dev
+O `npm run iniciar` mostra também o endereço para abrir o app **no celular**
+(mesma rede Wi-Fi do computador). As telas descobrem sozinhas onde está a API,
+então não é preciso editar nenhum `.env` para isso.
 
-# Simulador (porta 4000) — opcional, só para demonstração
-cd simulador
-npm install
-npm start
+### Jeito manual (cada parte no seu terminal)
+
+```bash
+cd api && cp .env.example .env && npm install && npm run db:migrate && npm run db:seed && npm run dev
+cd despacho && npm install && npm run dev
+cd app-entregador && npm install && npm run dev
+cd simulador && npm install && npm start
 ```
 
 Testes:
@@ -144,24 +147,29 @@ migration) e `npm run db:reset` (apaga tudo, recria e roda os seeds).
 
 ## Roteiro de demonstração
 
-1. Suba a API, o despacho, o app do entregador e o simulador (seção acima).
-2. Entre no despacho (`admin` / `admin123` por padrão) e cadastre um
-   entregador em **Entregadores**. Anote o PIN.
+1. `npm run preparar-banco` (começa limpo) e `npm run iniciar`.
+2. Entre no despacho (`admin` / `admin123`). Já existem três entregadores de
+   demonstração; outros podem ser cadastrados em **Entregadores**.
 3. Em **Configurações**, deixe o **modo demonstração** ligado.
 4. Abra o simulador em http://localhost:4000 e clique em **Iniciar** (pedidos
    chegam no ritmo configurado) ou em **Gerar lote** (vários de uma vez).
 5. No despacho, marque pedidos como **Pronto** (ou ligue "marcar pronto
    sozinho" no simulador), informe N e clique em **Sugerir rotas**.
 6. **Aceitar** → escolher entregador → **Despachar**.
-7. No celular (ou numa janela estreita), abra http://localhost:5174, entre
-   com o telefone e o PIN e confirme as entregas digitando o **código do
+7. No celular (endereço mostrado pelo `npm run iniciar`) ou numa janela
+   estreita, abra o app, entre com `19900000001` / `1111` e confirme as entregas digitando o **código do
    cliente** que aparece na tela do simulador.
 8. Para testar a regra das 3 tentativas, digite códigos errados ou marque
    **Plataforma fora do ar** no simulador.
 
-Para acessar o app pelo celular na mesma rede Wi-Fi, rode o Vite com
-`npm run dev -- --host` e use o IP do computador nos dois `.env`
-(`VITE_API_URL` do app e do despacho).
+Dicas para a apresentação:
+
+- Rode `npm run preparar-banco` antes, para começar sem pedidos antigos.
+- O mapa precisa de internet (as ruas vêm do OpenStreetMap).
+- Se o Windows perguntar sobre o firewall do Node, permita em "redes
+  privadas", senão o celular não alcança o computador.
+- No celular, use o app pelo navegador. Para "instalar na tela inicial" o
+  navegador exige HTTPS, o que fica para uma publicação futura.
 
 ## Modelo de dados
 
@@ -189,6 +197,15 @@ Cada etapa vai num commit separado, com a explicação do que foi feito e por qu
 - [x] **5. Tela de despacho** com o mapa
 - [x] **6. App do entregador**
 - [x] **7. Simulador**
+
+## Ferramentas utilizadas
+
+A ideia do projeto, o documento de requisitos, o plano técnico e as decisões
+de escopo são do autor. A implementação foi feita com o **Claude Code**
+(assistente de programação com IA da Anthropic), que transformou esses
+documentos em código, testes e documentação, etapa por etapa, conforme o
+plano técnico. O arquivo [`CLAUDE.md`](CLAUDE.md) reúne as regras de
+arquitetura e convenções seguidas durante o desenvolvimento.
 
 ## Fora do escopo (trabalhos futuros)
 

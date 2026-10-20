@@ -1,0 +1,11 @@
+{
+  "name": "roteiriza-ja",
+  "private": true,
+  "description": "Atalhos para instalar e rodar as quatro partes do Roteiriza Já de uma vez",
+  "scripts": {
+    "instalar": "node scripts/instalar.js",
+    "preparar-banco": "npm --prefix api run db:reset",
+    "iniciar": "node scripts/iniciar.js",
+    "testar": "npm --prefix api test && npm --prefix api run test:banco && npm --prefix simulador test"
+  }
+}
